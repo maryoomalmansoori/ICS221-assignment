@@ -144,4 +144,56 @@ def update_patient_data(current_node, emirates_id, updated_history, updated_cond
     elif current_node.patient.emirates_id < emirates_id:
         update_patient_data(current_node.prev, emirates_id, updated_history, updated_condition)
     else:
-        update_patient_data(current_node.next, emirates_id, updated_history, updated_condition)
+        update_patient_data(current_node.next, emirates_id, updated_history, updated_condition) 
+class Appointment:
+    def __init__(self, patient, doctor, date_time):
+        self.patient = patient
+        self.doctor = doctor
+        self.date_time = date_time
+class HospitalSystem:
+    def __init__(self):
+        self.patients = []
+        self.doctors = []
+        self.appointments = []
+    def add_patient(self, first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition):
+        patient = Patient(first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition)
+        self.patients.append(patient)
+
+    def add_doctor(self, name, specialization, Qualification, Experience):
+        doctor = Doctor(name, specialization, Qualification, Experience)
+        self.doctors.append(doctor)
+
+    def schedule_appointment(self, patient_name, doctor_name, date_time):
+        patient = next((p for p in self.patients if p.name == patient_name), None)
+        doctor = next((d for d in self.doctors if d.name == doctor_name), None)
+        if patient and doctor:
+            appointment = Appointment(patient, doctor, date_time)
+            self.appointments.append(appointment)
+            return f"Appointment scheduled for {patient_name} with Dr. {doctor_name} at {date_time}."
+        else:
+            return "Patient or doctor not found."
+
+    def add_to_waiting_room(self, patient_name):
+        patient = next((p for p in self.patients if p.name == patient_name), None)
+        if patient:
+            self.waiting_room.append(patient)
+            return f"{patient_name} added to the waiting room."
+        else:
+            return "Patient not found."
+
+    def consult_next_patient(self):
+        if self.waiting_room:
+            next_patient = self.waiting_room.pop(0)  # Remove the first patient in the waiting room (FIFO)
+            return f"Consulting {next_patient.name}"
+        else:
+            return "No patients in the waiting room."
+
+# Example usage:
+hospital = HospitalSystem()
+hospital.add_patient("laura", "Thompson", 30, "784-1990-833-1", "18/2/1990", "none", "fatigue and chest pain")
+hospital.add_doctor("Ahmed Yasin", "Cardiology", "PhD", "20 years")
+
+hospital.add_to_waiting_room("Laura")
+
+print(hospital.consult_next_patient())  # Output: Consulting Laura
+print(hospital.consult_next_patient())  # Output: No patients in the waiting room.
