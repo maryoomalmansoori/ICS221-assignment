@@ -121,6 +121,18 @@ class PatientRecord:
                 root.left = self.insert_patient_node(root.left, new_patient)
         return root
 
+    def remove_patient(self, emirates_id):
+        if emirates_id in self.record:
+            patient = self.record.pop(emirates_id)
+
+            # Remove patient from consultation queue (if present)
+            if patient in self.queue:
+                self.queue.remove(patient)
+
+            print(f"Patient with ID {emirates_id} removed successfully.")
+        else:
+            print(f"Patient with ID {emirates_id} not found.")
+
 
 def update_patient_data(current_node, emirates_id, updated_history, updated_condition):
     if current_node is None:
