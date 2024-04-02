@@ -1,6 +1,6 @@
-#**Problem Statement: **You are tasked with designing a hospital's system to manage patient records. The system should allow for efficient retrieval, updating, and removal of patient records while ensuring data integrity and privacy.
-class Patient: 
-    def __init__(self, first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition): 
+# **Problem Statement: **You are tasked with designing a hospital's system to manage patient records. The system should allow for efficient retrieval, updating, and removal of patient records while ensuring data integrity and privacy.
+class Patient:
+    def __init__(self, first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition):
         self.first_name = first_name
         self.last_name = last_name
         self.age = age
@@ -9,11 +9,12 @@ class Patient:
         self.medical_history = medical_history
         self.current_condition = current_condition
 
-    def __str__(self): 
+    def __str__(self):
         return f"Patient: {self.first_name, self.last_name},  Age: {self.age}, Emirates ID: {self.emirates_id}, Birth date: {self.birth_date}, Medical History: {self.medical_history}, Current Condition: {self.current_condition}"
 
-class Consultation: 
-    def __init__(self, patient, doctor, date, time, purpose, translator): 
+
+class Consultation:
+    def __init__(self, patient, doctor, date, time, purpose, translator):
         self.patient = patient
         self.doctor = doctor
         self.date = date
@@ -21,8 +22,9 @@ class Consultation:
         self.purpose = purpose
         self.translator = translator
 
-    def __str__(self): 
+    def __str__(self):
         return f"Patient Name: {self.patient}, Doctor Name: {self.doctor}, Date of consultation: {self.date}, Time: {self.time}, Purpose of consultation: {self.purpose}, The translator: {self.translator} would be with you in case you need help in any medical translations"
+
 
 class Medication:
     def __init__(self, patient_name, patient_last_name, current_medications):
@@ -33,12 +35,13 @@ class Medication:
     def __str__(self):
         return f"Medications for Patient {self.patient_name} {self.patient_last_name}: {self.current_medications}"
 
+
 class Doctor:
     def __init__(self, name, field_of_expertise, qualifications, experience):
-        self.name = name  
-        self.field_of_expertise = field_of_expertise  
-        self.qualifications = qualifications  
-        self.experience = experience  
+        self.name = name
+        self.field_of_expertise = field_of_expertise
+        self.qualifications = qualifications
+        self.experience = experience
 
 
 class Stack:
@@ -63,9 +66,10 @@ class Node:
         self.user_id = user_id
         self.name = name
 
+
 def add_data(start, user_id, name):
     new_person = Node(user_id, name)
-    
+
     if start is None:
         start = new_person
     else:
@@ -97,7 +101,8 @@ def symmetric_traversal(root):
         print("Current Condition:", root.patient.current_condition)
         print()
         symmetric_traversal(root.next)
-  
+
+
 class PatientRecord:
     def __init__(self):
         self.record = {}
@@ -137,14 +142,16 @@ class PatientRecord:
 def update_patient_data(current_node, emirates_id, updated_history, updated_condition):
     if current_node is None:
         return
-    
+
     if current_node.patient.emirates_id == emirates_id:
         current_node.patient.medical_history = updated_history
         current_node.patient.current_condition = updated_condition
     elif current_node.patient.emirates_id < emirates_id:
         update_patient_data(current_node.prev, emirates_id, updated_history, updated_condition)
     else:
-        update_patient_data(current_node.next, emirates_id, updated_history, updated_condition) 
+        update_patient_data(current_node.next, emirates_id, updated_history, updated_condition)
+
+
 class Appointment:
     def __init__(self, patient, doctor, date_time):
         self.patient = patient
@@ -190,10 +197,14 @@ class HospitalSystem:
 
 # Example usage:
 hospital = HospitalSystem()
-hospital.add_patient("laura", "Thompson", 30, "784-1990-833-1", "18/2/1990", "none", "fatigue and chest pain")
+hospital.add_patient("Laura", "Thompson", 30, "784-1990-833-1", "18/2/1990", "none", "fatigue and chest pain")
 hospital.add_doctor("Ahmed Yasin", "Cardiology", "PhD", "20 years")
 
 hospital.add_to_waiting_room("Laura")
 
 print(hospital.consult_next_patient())  # Output: Consulting Laura
 print(hospital.consult_next_patient())  # Output: No patients in the waiting room.
+
+
+
+
