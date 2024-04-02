@@ -243,6 +243,37 @@ class Queue:
 
     def is_empty(self):
         return len(self.queue_list) == 0
+
+def search_patient_summary(self, emirates_id):
+    patient = None
+    for p in self.patients:
+        if p.emirates_id == emirates_id:
+            patient = p
+            break
+
+    if patient:
+        attending_doctor = None
+        appointment_details = None
+        for appointment in self.appointments:
+            if appointment.patient == patient:
+                attending_doctor = appointment.doctor
+                appointment_details = f"Appointment Date: {appointment.date_time}\nDoctor: {attending_doctor.name}, {attending_doctor.field_of_expertise}"
+
+        medications = None
+        for medication in self.medications:
+            if medication.patient_name == patient.first_name and medication.patient_last_name == patient.last_name:
+                medications = medication.current_medications
+
+        summary = f"Patient: {patient.first_name} {patient.last_name}\nAge: {patient.age}\nEmirates ID: {patient.emirates_id}\nBirth Date: {patient.birth_date}\nMedical History: {patient.medical_history}\nCurrent Condition: {patient.current_condition}\n\n"
+        if attending_doctor and appointment_details:
+            summary += "Appointment Details:\n" + appointment_details + "\n"
+        if medications:
+            summary += "Medications: " + ', '.join(medications) + "\n"
+
+        return summary
+    else:
+        return "Patient not found."
+
 # Example usage:
 hospital = HospitalSystem()
 hospital.add_patient("Laura", "Thompson", 30, "784-1990-833-1", "18/2/1990", "none", "fatigue and chest pain")
