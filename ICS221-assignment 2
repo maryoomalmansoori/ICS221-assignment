@@ -162,16 +162,22 @@ class HospitalSystem:
         self.patients = []
         self.doctors = []
         self.appointments = []
+        self.medications = []  # Add medications list attribute
+
+
+    def add_medication(self, medication):
+        self.medications.append(medication)
+
     def add_patient(self, first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition):
         patient = Patient(first_name, last_name, age, emirates_id, birth_date, medical_history, current_condition)
         self.patients.append(patient)
 
-    def add_doctor(self, name, specialization, Qualification, Experience):
-        doctor = Doctor(name, specialization, Qualification, Experience)
+    def add_doctor(self, name, field_of_expertise, qualifications, experience):
+        doctor = Doctor(name, field_of_expertise, qualifications, experience)
         self.doctors.append(doctor)
 
     def schedule_appointment(self, patient_name, doctor_name, date_time):
-        patient = next((p for p in self.patients if p.name == patient_name), None)
+        patient = next((p for p in self.patients if p.first_name == patient_name), None)
         doctor = next((d for d in self.doctors if d.name == doctor_name), None)
         if patient and doctor:
             appointment = Appointment(patient, doctor, date_time)
@@ -195,7 +201,13 @@ class HospitalSystem:
         else:
             return "No patients in the waiting room."
     def issue_prescription(self, patient_id, medications):
-        self.patients.issue_prescription(patient_id, medications)
+        patient = next((p for p in self.patients if p.emirates_id == patient_id), None)
+        if patient:
+            medication_record = Medication(patient.first_name, patient.last_name, medications)
+            self.medications.append(medication_record)
+            return f"Prescription issued for patient {patient.first_name} {patient.last_name}."
+        else:
+            return "Patient not found."
 
     def patient_summary(self, patient_id):
         self.patients.patient_summary(patient_id)
@@ -274,16 +286,31 @@ def search_patient_summary(self, emirates_id):
     else:
         return "Patient not found."
 
-# Example usage:
-hospital = HospitalSystem()
-hospital.add_patient("Laura", "Thompson", 30, "784-1990-833-1", "18/2/1990", "none", "fatigue and chest pain")
-hospital.add_doctor("Ahmed Yasin", "Cardiology", "PhD", "20 years")
+# Create an instance of HospitalSystem
 
-hospital.add_to_waiting_room("Laura")
+hospital_system = HospitalSystem()
 
-print(hospital.consult_next_patient())  # Output: Consulting Laura
-print(hospital.consult_next_patient())  # Output: No patients in the waiting room.
+# Add patients to the hospital system
+patient1 = Patient("John ", "Smith", "31", "794-21312132", "1980-01-01", "cold", "stable")
+patient2 = Patient("Jane ", "Doe", "19", "784-21434", "1985-02-02", "fever" , "stable")
+hospital_system.add_patient("Jane ", "Doe", "19", "784-21434", "1985-02-02", "fever" , "stable")
+hospital_system.add_patient("Jane ", "Doe", "19", "784-21434", "1985-02-02", "fever" , "stable")
 
+# Add doctors to the hospital system
+doctor1 = Doctor("Dr. James Johnson", "Cardiology","Dentis", "20 years")
+doctor2 = Doctor("Dr. Sarah Williams", "Pediatrics","Surgeon", "30 years")
+hospital_system.add_doctor("Dr. James Johnson", "Cardiology","Dentis", "20 years")
+hospital_system.add_doctor("Dr. Sarah Williams", "Pediatrics","Surgeon", "30 years")
 
+# Add appointments to the hospital system
+appointment1 = Appointment(patient1, doctor1, "2024-04-01 10:00")
+appointment2 = Appointment(patient2, doctor2, "2024-04-02 14:30")
+hospital_system.appointments.append(appointment1)  # Append appointment1 to the appointments list
+hospital_system.appointments.append(appointment2)  # Append appointment2 to the appointments list
 
+# Add medications to the hospital system
+medication1 = Medication("John", "Smith", "Aspirin")
+medication2 = Medication("Jane", "Doe", "Paracetamol")
+hospital_system.add_medication(medication1)
+hospital_system.add_medication(medication2)
 
