@@ -181,7 +181,7 @@ class HospitalSystem:
             return "Patient or doctor not found."
 
     def add_to_waiting_room(self, patient_name):
-        patient = next((p for p in self.patients if p.name == patient_name), None)
+        patient = next((p for p in self.patients if p.first_name == patient_name), None)
         if patient:
             self.waiting_room.append(patient)
             return f"{patient_name} added to the waiting room."
